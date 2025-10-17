@@ -3,7 +3,7 @@ import requests
 requests.packages.urllib3.disable_warnings()
 
 # Router IP Address is 10.0.15.181-184
-api_url = "https://10.0.15.63/restconf/data/ietf-interfaces:interfaces/interface=Loopback138"
+api_url = "https://10.0.15.63/restconf/data/ietf-interfaces:interfaces/interface=Loopback66070138"
 
 # the RESTCONF HTTP headers, including the Accept and Content-Type
 # Two YANG data formats (JSON and XML) work with RESTCONF 
@@ -17,14 +17,14 @@ basicauth = ("admin", "cisco")
 def create():
     yangConfig = {
     "ietf-interfaces:interface": {
-        "name": "Loopback138",
+        "name": "Loopback66070138",
         "description": "My RESTCONF loopback",
         "type": "iana-if-type:softwareLoopback",
         "enabled": True,
         "ietf-ip:ipv4": {
             "address": [
                 {
-                    "ip": "10.0.15.63",
+                    "ip": "172.1.38.1",
                     "netmask": "255.255.255.0"
                 }
             ]
@@ -67,12 +67,13 @@ def delete():
 def enable():
     yangConfig = {
     "ietf-interfaces:interface": {
-        "name": "Loopback138",
+        "name": "Loopback66070138",
+        "type": "iana-if-type:softwareLoopback",
         "enabled": True,
     }
 }
 
-    resp = requests.put(
+    resp = requests.patch(
         api_url, 
         data=json.dumps(yangConfig), 
         auth=basicauth, 
@@ -91,7 +92,8 @@ def enable():
 def disable():
     yangConfig = {
     "ietf-interfaces:interface": {
-        "name": "Loopback138",
+        "name": "Loopback66070138",
+        "type": "iana-if-type:softwareLoopback",
         "enabled": False,
     }
 }
@@ -113,7 +115,7 @@ def disable():
 
 
 def status():
-    api_url_status = "https://10.0.15.63/restconf/data/ietf-interfaces:interfaces/interface=Loopback138"
+    api_url_status = "https://10.0.15.63/restconf/data/ietf-interfaces:interfaces-state/interface=Loopback66070138"
 
     resp = requests.get(
         api_url_status, 
@@ -125,8 +127,8 @@ def status():
     if(resp.status_code >= 200 and resp.status_code <= 299):
         print("STATUS OK: {}".format(resp.status_code))
         response_json = resp.json()
-        admin_status = response_json['ietf-interfaces:interface'][0]['admin-status']
-        oper_status = response_json['ietf-interfaces:interface'][0]['oper-status']
+        admin_status = response_json['ietf-interfaces:interface']['admin-status']
+        oper_status = response_json['ietf-interfaces:interface']['oper-status']
         if admin_status == 'up' and oper_status == 'up':
             return "Interface loopback 66070138 is enabled"
         elif admin_status == 'down' and oper_status == 'down':
@@ -136,3 +138,6 @@ def status():
         return "No Interface loopback 66070138"
     else:
         print('Error. Status Code: {}'.format(resp.status_code))
+
+if __name__ == "__main__":
+     enable()
