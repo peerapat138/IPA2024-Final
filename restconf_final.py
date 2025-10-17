@@ -139,5 +139,5 @@ def status():
     else:
         print('Error. Status Code: {}'.format(resp.status_code))
 
-if __name__ == "__main__":
-     enable()
+# if __name__ == "__main__":
+#      enable()
