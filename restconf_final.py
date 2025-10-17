@@ -35,6 +35,8 @@ def create():
     resp = requests.put(
         api_url, 
         data=json.dumps(yangConfig), 
+        auth=basicauth,
+        headers=headers,
         verify=False
         )
 

@@ -17,6 +17,7 @@ import restconf_final
 #######################################################################################
 # 2. Assign the Webex access token to the variable ACCESS_TOKEN using environment variables.
 
+ACCESS_TOKEN = os.environ.get("WEBEX_TOKEN")
 
 #######################################################################################
 # 3. Prepare parameters get the latest message for messages API.
@@ -73,15 +74,25 @@ while True:
     if message.startswith("/66070138"):
 
         # extract the command
+        command = message.partition(" ")[2]
         print(command)
 
 # 5. Complete the logic for each command
 
         if command == "create":
+           restconf_final.create    
         elif command == "delete":
+           restconf_final.delete
         elif command == "enable":
+           restconf_final.enable
         elif command == "disable":
+            restconf_final.disable
         elif command == "status":
+           restconf_final.status
+        # elif command == "gigabit_status":
+        #     <!!!REPLACEME with code for gigabit_status command!!!>
+        # elif command == "showrun":
+        #     <!!!REPLACEME with code for showrun command!!!>
         else:
             responseMessage = "Error: No command or unknown command"
         
@@ -99,3 +110,35 @@ while True:
         # Read Send a Message with Attachments Local File Attachments
         # https://developer.webex.com/docs/basics for more detail
 
+        # if command == "showrun" and responseMessage == 'ok':
+        #     filename = "<!!!REPLACEME with show run filename and path!!!>"
+        #     fileobject = <!!!REPLACEME with open file!!!>
+        #     filetype = "<!!!REPLACEME with Content-type of the file!!!>"
+        #     postData = {
+        #         "roomId": <!!!REPLACEME!!!>,
+        #         "text": "show running config",
+        #         "files": (<!!!REPLACEME!!!>, <!!!REPLACEME!!!>, <!!!REPLACEME!!!>),
+        #     }
+        #     postData = MultipartEncoder(<!!!REPLACEME!!!>)
+        #     HTTPHeaders = {
+        #     "Authorization": ACCESS_TOKEN,
+        #     "Content-Type": <!!!REPLACEME with postData Content-Type!!!>,
+        #     }
+        # # other commands only send text, or no attached file.
+        # else:
+        #     postData = {"roomId": <!!!REPLACEME!!!>, "text": <!!!REPLACEME!!!>}
+        #     postData = json.dumps(postData)
+
+        #     # the Webex Teams HTTP headers, including the Authoriztion and Content-Type
+        #     HTTPHeaders = {"Authorization": <!!!REPLACEME!!!>, "Content-Type": <!!!REPLACEME!!!>}   
+
+        # # Post the call to the Webex Teams message API.
+        # r = requests.post(
+        #     "<!!!REPLACEME with URL of Webex Teams Messages API!!!>",
+        #     data=<!!!REPLACEME!!!>,
+        #     headers=<!!!REPLACEME!!!>,
+        # )
+        # if not r.status_code == 200:
+        #     raise Exception(
+        #         "Incorrect reply from Webex Teams API. Status code: {}".format(r.status_code)
+        #     )
