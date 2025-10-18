@@ -8,10 +8,14 @@
 
 import os
 import requests
+from requests_toolbelt import MultipartEncoder
 import time
 import json
 from dotenv import load_dotenv
+
 import restconf_final
+import netmiko_final
+import ansible_final
 
 load_dotenv()
 #######################################################################################
@@ -90,11 +94,11 @@ while True:
         elif command == "disable":
             responseMessage = restconf_final.disable()
         elif command == "status":
-           responseMessage =restconf_final.status()
-        # elif command == "gigabit_status":
-        #     <!!!REPLACEME with code for gigabit_status command!!!>
-        # elif command == "showrun":
-        #     <!!!REPLACEME with code for showrun command!!!>
+            responseMessage =restconf_final.status()
+        elif command == "gigabit_status":
+            responseMessage =netmiko_final.gigabit_status()
+        elif command == "showrun":
+            responseMessage = ansible_final.showrun()
         else:
             responseMessage = "Error: No command or unknown command"
         
@@ -112,22 +116,22 @@ while True:
         # Read Send a Message with Attachments Local File Attachments
         # https://developer.webex.com/docs/basics for more detail
 
-        # if command == "showrun" and responseMessage == 'ok':
-        #     filename = "<!!!REPLACEME with show run filename and path!!!>"
-        #     fileobject = <!!!REPLACEME with open file!!!>
-        #     filetype = "<!!!REPLACEME with Content-type of the file!!!>"
-        #     postData = {
-        #         "roomId": roomIdToGetMessages,
-        #         "text": "show running config",
-        #         "files": (<!!!REPLACEME!!!>, <!!!REPLACEME!!!>, <!!!REPLACEME!!!>),
-        #     }
-        #     postData = MultipartEncoder(<!!!REPLACEME!!!>)
-        #     HTTPHeaders = {
-        #     "Authorization": ACCESS_TOKEN,
-        #     "Content-Type": <!!!REPLACEME with postData Content-Type!!!>,
-        #     }
+        if command == "showrun" and responseMessage == 'ok':
+            filename = "show_run_66070138_{{ inventory_hostname }}.txt"
+            fileobject = open(filename, 'rb')
+            filetype = "text/plain"
+            postData = {
+                "roomId": roomIdToGetMessages,
+                "text": "show running config",
+                "files": (filename, fileobject, filetype),
+            }
+            postData = MultipartEncoder(postData)
+            HTTPHeaders = {
+            "Authorization": f"Bearer {ACCESS_TOKEN}",
+            "Content-Type": postData.content_type,
+            }
         # other commands only send text, or no attached file.
-        if command != "showrun":
+        else:
             postData = {"roomId":roomIdToGetMessages, "text": responseMessage}
             postData = json.dumps(postData)
 
@@ -144,4 +148,3 @@ while True:
             raise Exception(
                 "Incorrect reply from Webex Teams API. Status code: {}".format(r.status_code)
             )
-        

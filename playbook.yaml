@@ -1,0 +1,14 @@
+- name: Get running config
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Save running config
+      ios_command:
+        commands:
+          - show running-config
+      register: result
+
+    - name: Write output to file
+      copy:
+        content: "{{ result.stdout[0] }}"
+        dest: "show_run_66070138_{{ inventory_hostname }}.txt"
