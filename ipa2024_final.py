@@ -115,9 +115,9 @@ while True:
         # Need to attach file if responseMessage is 'ok'; 
         # Read Send a Message with Attachments Local File Attachments
         # https://developer.webex.com/docs/basics for more detail
-
+        print("res: ",responseMessage)
         if command == "showrun" and responseMessage == 'ok':
-            filename = "show_run_66070138_{{ inventory_hostname }}.txt"
+            filename = "show_run_66070138_R3-Exam.txt"
             fileobject = open(filename, 'rb')
             filetype = "text/plain"
             postData = {

@@ -18,7 +18,7 @@ def create():
     yangConfig = {
     "ietf-interfaces:interface": {
         "name": "Loopback66070138",
-        "description": "My RESTCONF loopback",
+        "description": "loopback 66070138 create by RESTCONF",
         "type": "iana-if-type:softwareLoopback",
         "enabled": True,
         "ietf-ip:ipv4": {
