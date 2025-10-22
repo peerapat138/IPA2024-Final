@@ -22,7 +22,6 @@ load_dotenv()
 # 2. Assign the Webex access token to the variable ACCESS_TOKEN using environment variables.
 
 ACCESS_TOKEN = os.environ.get("WEBEX_TOKEN")
-print("TOKEN:", ACCESS_TOKEN)
 WEBEX_MESSAGES_API = "https://webexapis.com/v1/messages"
 
 #######################################################################################
@@ -30,7 +29,7 @@ WEBEX_MESSAGES_API = "https://webexapis.com/v1/messages"
 
 # Defines a variable that will hold the roomId
 roomIdToGetMessages = (
-    "Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vMjlkNzliNDAtYWI0ZS0xMWYwLTgwMjAtYjcwNDU0MDQ0MmI3"
+    "Y2lzY29zcGFyazovL3VybjpURUFNOnVzLXdlc3QtMl9yL1JPT00vYmQwODczMTAtNmMyNi0xMWYwLWE1MWMtNzkzZDM2ZjZjM2Zm"
 )
 
 while True:
