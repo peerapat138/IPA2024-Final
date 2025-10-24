@@ -98,7 +98,7 @@ def disable():
     }
 }
 
-    resp = requests.put(
+    resp = requests.patch(
         api_url, 
         data=json.dumps(yangConfig), 
         auth=basicauth, 
